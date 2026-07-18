@@ -6,6 +6,19 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+  
+  const fetchCount = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/api/counter')
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      const data = await response.json()
+      setCount(data.count)
+    } catch (error) {
+      console.error('Error fetching count:', error)
+    }
+  }
 
   return (
     <>
@@ -24,7 +37,7 @@ function App() {
         <button
           type="button"
           className="counter"
-          onClick={() => setCount((count) => count + 1)}
+          onClick={fetchCount}
         >
           Count is {count}
         </button>
